@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QRGen — Modern QR Code Generator</title>
+<meta name="description" content="Create customizable QR codes with colors, logos, sizes and PNG/SVG downloads.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">⌘</span><span>QR<span>Gen</span></span></div>
+  <div class="tagline">Create. Customize. Share.</div>
+  <button id="themeBtn" class="icon-btn" title="Toggle theme">☾</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>QR Code <em>Generator</em></h1>
+      <p>Turn any website link into a beautiful, customizable QR code. Add your logo, choose your colours, adjust the size, and download it in high quality.</p>
+    </div>
+  </section>
+
+  <section class="workspace">
+    <div class="panel controls">
+      <label class="section-label">Website URL</label>
+      <div class="input-wrap"><span>↗</span><input id="url" type="url" value="https://www.example.com" placeholder="https://example.com"></div>
+
+      <div class="section-title">Customize Design</div>
+      <div class="grid-2">
+        <label>Foreground Colour<div class="color-control"><input id="fg" type="color" value="#6366f1"><input id="fgText" value="#6366f1"></div></label>
+        <label>Background Colour<div class="color-control"><input id="bg" type="color" value="#ffffff"><input id="bgText" value="#ffffff"></div></label>
+      </div>
+
+      <div class="section-title small">Corner Style</div>
+      <div class="choices" id="cornerChoices">
+        <button class="choice active" data-corner="square">▣</button>
+        <button class="choice" data-corner="rounded">▢</button>
+        <button class="choice" data-corner="extra-rounded">▣</button>
+        <button class="choice" data-corner="dot">●</button>
+      </div>
+
+      <div class="section-title">Size <output id="sizeOut">320 px</output></div>
+      <input id="size" class="range" type="range" min="160" max="1000" step="20" value="320">
+
+      <div class="section-title">Add Logo <span>(Optional)</span></div>
+      <div class="upload-row">
+        <label class="dropzone" for="logo">＋<strong>Click to upload</strong><small>PNG, JPG or SVG · max 2MB</small></label>
+        <input id="logo" type="file" accept="image/png,image/jpeg,image/svg+xml" hidden>
+        <div id="logoPreview" class="logo-preview hidden"><img><button id="removeLogo">×</button></div>
+      </div>
+
+      <div class="section-title">Error Correction Level</div>
+      <div class="ec-grid">
+        <button data-ec="L">Low <small>7%</small></button>
+        <button data-ec="M">Medium <small>15%</small></button>
+        <button data-ec="Q">Quartile <small>25%</small></button>
+        <button data-ec="H" class="active">High <small>30%</small></button>
+      </div>
+
+      <div class="actions">
+        <button id="generate" class="primary">▦ &nbsp; Generate QR Code</button>
+        <button id="reset" class="secondary">↻ &nbsp; Reset</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <div class="preview-head">
+        <div class="section-label">▦ &nbsp; Your QR Code</div>
+        <div class="downloads">
+          <button id="png">⇩ Download PNG</button>
+          <button id="svg">⇩ Download SVG</button>
+        </div>
+      </div>
+      <div class="qr-stage"><div id="qr"></div></div>
+      <div class="stats">
+        <div><b>↗</b><span>URL<small id="urlStat">https://www.example.com</small></span></div>
+        <div><b>◉</b><span>Colours<small><i id="fgStat">#6366f1</i> → <i id="bgStat">#ffffff</i></small></span></div>
+        <div><b>↗</b><span>Size<small id="sizeStat">320 × 320 px</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div><b>ϟ</b><span>Fast & Easy<small>Generate in seconds</small></span></div>
+    <div><b>◉</b><span>Fully Customizable<small>Make it your own</small></span></div>
+    <div><b>♢</b><span>High Quality<small>Scans reliably</small></span></div>
+    <div><b>▣</b><span>Download Anywhere<small>PNG or SVG</small></span></div>
+  </section>
+</main>
+<footer>QRGen · Your QR codes are generated locally in your browser.</footer>
+<script src="app.js"></script>
+</body>
+</html>

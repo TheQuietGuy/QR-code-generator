@@ -1,0 +1,20 @@
+const $=id=>document.getElementById(id);
+let corner="square", ec="H", logo=null;
+const qr=new QRCodeStyling({width:320,height:320,type:"svg",data:$("url").value,margin:12,qrOptions:{errorCorrectionLevel:"H"},dotsOptions:{color:"#6366f1",type:"square"},backgroundOptions:{color:"#ffffff"},cornersSquareOptions:{color:"#6366f1",type:"square"},cornersDotOptions:{color:"#6366f1",type:"square"}});qr.append($("qr"));
+function update(){const url=$("url").value.trim()||"https://example.com";const size=+$("size").value;const fg=$("fg").value,bg=$("bg").value;const map={square:"square",rounded:"rounded","extra-rounded":"extra-rounded",dot:"dot"};qr.update({width:size,height:size,data:url,backgroundOptions:{color:bg},qrOptions:{errorCorrectionLevel:ec},dotsOptions:{color:fg,type:corner==="dot"?"dots":corner==="extra-rounded"?"extra-rounded":corner==="rounded"?"rounded":"square"},cornersSquareOptions:{color:fg,type:map[corner]},cornersDotOptions:{color:fg,type:corner==="dot"?"dot":"square"},image:logo,imageOptions:{hideBackgroundDots:true,imageSize:.22,margin:5}});$("urlStat").textContent=url;$("fgStat").textContent=fg;$("bgStat").textContent=bg;$("sizeOut").textContent=size+" px";$("sizeStat").textContent=`${size} × ${size} px`;}
+$("generate").onclick=update;
+$("url").addEventListener("input",update);
+$("size").addEventListener("input",update);
+$("fg").addEventListener("input",e=>{$("fgText").value=e.target.value;update()});
+$("bg").addEventListener("input",e=>{$("bgText").value=e.target.value;update()});
+$("fgText").addEventListener("change",e=>{if(/^#[0-9a-f]{6}$/i.test(e.target.value)){$("fg").value=e.target.value;update()}});
+$("bgText").addEventListener("change",e=>{if(/^#[0-9a-f]{6}$/i.test(e.target.value)){$("bg").value=e.target.value;update()}});
+document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));b.classList.add("active");corner=b.dataset.corner;update()});
+document.querySelectorAll(".ec-grid button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".ec-grid button").forEach(x=>x.classList.remove("active"));b.classList.add("active");ec=b.dataset.ec;update()});
+$("logo").onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024){alert("Logo must be 2MB or smaller.");return}const r=new FileReader();r.onload=()=>{logo=r.result;$("logoPreview").classList.remove("hidden");$("logoPreview").querySelector("img").src=logo;update()};r.readAsDataURL(f)};
+$("removeLogo").onclick=()=>{logo=null;$("logo").value="";$("logoPreview").classList.add("hidden");update()};
+$("png").onclick=()=>qr.download({name:"qr-code",extension:"png"});
+$("svg").onclick=()=>qr.download({name:"qr-code",extension:"svg"});
+$("reset").onclick=()=>{location.reload()};
+$("themeBtn").onclick=()=>document.body.classList.toggle("light");
+update();
